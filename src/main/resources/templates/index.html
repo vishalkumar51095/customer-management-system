@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Welcome Page</title>
+    <style>
+        body {
+            padding-top: 50px; /* Adjust for navbar height */
+        }
+        .navbar {
+            background-color: #354a60; /* Dark blue for a sleek look */
+            color: #fff;
+        }
+        .navbar-brand {
+            font-weight: bold;
+        }
+        .navbar-nav li a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
+    <a class="navbar-brand" href="#">Secure Area</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="customer-list.html">Customer List</a>
+            </li>
+        </ul>
+        <button type="button" class="btn btn-outline-light" onclick="logout()">Logout</button>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Welcome to the Secure Area!</h1>
+    <p>This page is accessible only after successful authentication.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') cookie = cookie.substring(1, cookie.length);
+            if (cookie.indexOf(nameEQ) === 0) return cookie.substring(nameEQ.length, cookie.length);
+        }
+        return null;
+    }
+
+    function eraseCookie(name) {
+        document.cookie = name + '=; Max-Age=-99999999; path=/';
+    }
+
+    function logout() {
+        // Clear the token from local storage
+        localStorage.removeItem('token');
+
+        // Clear the token cookie
+        eraseCookie('token');
+
+        // Redirect back to the login page
+        window.location.href = 'login.html';
+    }
+
+
+    // Function to get the user's name from a cookie
+    function getUserName() {
+        const username = getCookie('username');
+        if (username) {
+            return username;
+        } else {
+            // If the user's name is not found, handle it accordingly
+            return 'Guest';
+        }
+    }
+
+    // Use the getUserName function wherever you need to display the user's name
+    const userName = getUserName();
+    console.log('User Name:', userName);
+</script>
+
+</body>
+</html>
